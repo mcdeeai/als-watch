@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ALS Watch</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="hero">
+    <div>
+      <p class="eyebrow">Private care-network portal</p>
+      <h1>ALS Watch</h1>
+      <p class="dek">A calm place for Scott, Rachel, and trusted helpers to track possible ALS trials, research leads, doctor questions, and outreach — without drowning in noise.</p>
+    </div>
+    <aside class="safety">
+      <strong>Safety note</strong>
+      <span>ALS Watch is not medical advice. Everything here is for discussion with Scott’s treating neurologist, ALS clinic, or trial coordinators.</span>
+    </aside>
+  </header>
+
+  <main>
+    <section class="grid top-grid">
+      <article class="card action-card">
+        <div class="card-header">
+          <p class="eyebrow">Today</p>
+          <h2>Top possible actions</h2>
+        </div>
+        <ol id="top-actions" class="action-list"></ol>
+      </article>
+
+      <article class="card">
+        <div class="card-header">
+          <p class="eyebrow">For doctor visit</p>
+          <h2>Questions to ask</h2>
+        </div>
+        <ul id="doctor-questions" class="plain-list"></ul>
+        <button class="ghost" data-add="question">Add question</button>
+      </article>
+    </section>
+
+    <section class="card">
+      <div class="card-header row">
+        <div>
+          <p class="eyebrow">Opportunity board</p>
+          <h2>Trials & leads</h2>
+        </div>
+        <button data-add="lead">Submit a lead</button>
+      </div>
+      <div id="lead-board" class="lead-board"></div>
+    </section>
+
+    <section class="grid">
+      <article class="card">
+        <div class="card-header">
+          <p class="eyebrow">Shared context</p>
+          <h2>Scott profile checklist</h2>
+        </div>
+        <p class="muted">Only share what Scott is comfortable sharing. These fields help match trial eligibility.</p>
+        <div id="intake-checklist" class="checklist"></div>
+      </article>
+
+      <article class="card">
+        <div class="card-header">
+          <p class="eyebrow">Help from the network</p>
+          <h2>Lead inbox</h2>
+        </div>
+        <form id="lead-form" class="form">
+          <label>Link or contact<input name="link" placeholder="Trial page, article, researcher, clinic..." /></label>
+          <label>Why it might matter<textarea name="note" placeholder="What caught your eye?"></textarea></label>
+          <label>Your name<input name="name" placeholder="Optional" /></label>
+          <button type="submit">Add to inbox</button>
+        </form>
+        <ul id="inbox" class="plain-list inbox"></ul>
+      </article>
+    </section>
+  </main>
+
+  <dialog id="modal">
+    <form method="dialog" class="modal-form">
+      <h2 id="modal-title">Add item</h2>
+      <label>Title<input id="modal-title-input" /></label>
+      <label>Details<textarea id="modal-details-input"></textarea></label>
+      <menu>
+        <button value="cancel" class="ghost">Cancel</button>
+        <button id="modal-save" value="default">Save</button>
+      </menu>
+    </form>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
