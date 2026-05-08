@@ -36,6 +36,29 @@ python3 -m als_watch.trials --dry-run --out out/digest.md
 
 State is stored at `state/clinicaltrials_seen.json` to reduce duplicate alerts.
 
+## Daily Packet CLI
+
+Generate the local daily packet bundle:
+
+```bash
+python3 -m als_watch.packet --days 1 --out-dir out
+```
+
+This writes:
+
+- `out/digest.md` — full ClinicalTrials.gov digest
+- `out/daily-packet.md` — concise operator/Discord-friendly daily packet
+- `out/portal-data.json` — structured data for a future portal integration
+- `out/discord-message.md` — short Markdown suitable to paste into Discord
+
+For a broader review window that includes already-seen leads:
+
+```bash
+python3 -m als_watch.packet --days 30 --include-seen --out-dir out
+```
+
+The packet generator only writes local files. It does not send Discord/email/SMS messages, contact doctors or trial coordinators, deploy, or use real patient data.
+
 ## Smoke Test
 
 ```bash
@@ -49,4 +72,3 @@ If pytest is not installed, the CLI can still run with the Python standard libra
 - ClinicalTrials.gov API v2 via `als_watch/trials.py`
 
 Future sources are listed in `sources.md`.
-
