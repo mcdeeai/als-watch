@@ -13,6 +13,15 @@ ALS Watch = agent research desk + private comms/control surface + human care net
 
 Today we build the research desk foundation, not the whole portal.
 
+
+## Trial Fit Standard
+Every trial lead must eventually answer:
+- fit: could this plausibly apply to Scott?
+- criteria: what inclusion/exclusion gates matter?
+- path: how does Scott get considered?
+
+See `docs/TRIAL_FIT_REVIEW.md`.
+
 ## Today’s Definition of Done
 1. Repo/folder scaffold exists.
 2. ClinicalTrials.gov v2 watcher works for ALS.

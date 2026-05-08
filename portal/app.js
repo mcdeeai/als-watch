@@ -10,11 +10,11 @@ const data = {
     'Would UCSF recommend contacting HEALEY, Coya, or any expanded-access programs now?'
   ],
   leads: [
-    { title: 'HEALEY ALS Platform Trial', status: 'Worth asking doctor', note: 'Recruiting Phase 2/3 platform trial with many US sites.', score: '100/100' },
-    { title: 'COYA 302 / ALSTARS', status: 'Reviewing', note: 'Recruiting Phase 2, includes San Francisco location.', score: '98/100' },
-    { title: 'PHENOGENE-1A / Cromolyn', status: 'Reviewing', note: 'Recruiting Phase 2, includes SF/Sutter and UCSD.', score: '94/100' },
-    { title: 'Dazucorilant', status: 'Reviewing', note: 'Recruiting Phase 2, includes San Francisco listing.', score: '94/100' },
-    { title: 'INS1202', status: 'Needs genetic/status fit', note: 'Phase 1, includes Palo Alto/La Jolla; SOD1 or sporadic cohorts.', score: '90/100' }
+    { title: 'HEALEY ALS Platform Trial', status: 'Worth asking doctor', note: 'Fit gates: onset ≤24 months, vital capacity ≥50%, meds stability. Path: ask UCSF/ALS doctor whether referral or coordinator contact makes sense.', score: '100/100' },
+    { title: 'COYA 302 / ALSTARS', status: 'Reviewing', note: 'Fit gates: age 18–80, onset ≤28 months, ALSFRS-R ≥35, SVC ≥70%. Path: verify Scott criteria, then ask doctor/coordinator.', score: '98/100' },
+    { title: 'PHENOGENE-1A / Cromolyn', status: 'Reviewing', note: 'Fit gates need extraction/review. Path: confirm mild/moderate ALS criteria, FVC/PFT needs, and SF/Sutter site availability.', score: '94/100' },
+    { title: 'Dazucorilant', status: 'Reviewing', note: 'Fit gates: ENCALS/risk profile, medication stability, SOD1/tofersen caveats. Path: doctor review before coordinator contact.', score: '94/100' },
+    { title: 'INS1202', status: 'Needs genetic/status fit', note: 'Fit gates: SOD1 or sporadic cohort, ALSFRS-R ≥24, disease duration ≤42 months, no prior gene/cell therapy. Path: genetic/status check first.', score: '90/100' }
   ],
   checklist: [
     ['Current city/state/country', 'Needed'],
