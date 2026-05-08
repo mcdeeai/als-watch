@@ -89,7 +89,14 @@ def test_packet_run_writes_all_outputs_without_network(tmp_path, monkeypatch):
     portal_data = json.loads((out_dir / "portal-data.json").read_text())
     assert portal_data["topActions"]
     assert portal_data["trials"][0]["nctId"] == "NCT00000001"
-    assert "ALS Watch Daily Packet" in (out_dir / "discord-message.md").read_text()
+    discord = (out_dir / "discord-message.md").read_text()
+    assert "ALS Watch Daily Packet" in discord
+    assert "Status:" in discord
+    assert "Doctor questions" in discord
+    assert "out/daily-packet.md" in discord
+    assert "out/portal-data.json" in discord
+    assert "urgent" not in discord.lower()
+    assert len(discord) <= 1500
 
 
 def test_packet_core_als_filter_excludes_broad_sidebar_condition():
@@ -102,4 +109,3 @@ def test_packet_core_als_filter_excludes_broad_sidebar_condition():
 
     lead.conditions = ["Amyotrophic Lateral Sclerosis"]
     assert packet.is_core_als_lead(lead) is True
-

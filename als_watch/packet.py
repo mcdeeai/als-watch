@@ -51,6 +51,8 @@ CORE_MISSING_INFO = [
     "Need travel feasibility and preferred ALS clinic/site",
 ]
 
+DISCORD_TARGET_CHARS = 1500
+
 
 def _unique(items: list[str], limit: int | None = None) -> list[str]:
     seen: set[str] = set()
@@ -64,6 +66,13 @@ def _unique(items: list[str], limit: int | None = None) -> list[str]:
         if limit and len(out) >= limit:
             break
     return out
+
+
+def _shorten(text: str, max_len: int) -> str:
+    clean = re.sub(r"\s+", " ", text).strip()
+    if len(clean) <= max_len:
+        return clean
+    return clean[: max_len - 1].rstrip() + "…"
 
 
 def _eligibility_sections(criteria: str) -> tuple[list[str], list[str]]:
@@ -198,7 +207,7 @@ def build_top_actions(leads: list[TrialLead]) -> list[str]:
 
     top = leads[:3]
     actions = [
-        f"Review {lead.nct_id} with a doctor: {lead.title} ({lead.score}/100)."
+        f"Ask doctor to review {lead.nct_id}: {lead.title} ({lead.score}/100)."
         for lead in top
     ]
     actions.append("Fill missing Scott info blocking fit assessment: onset/diagnosis dates, ALSFRS-R, FVC/SVC, genetics, meds, prior trials, and travel feasibility.")
@@ -244,6 +253,15 @@ def build_packet(leads: list[TrialLead], days: int, condition: str) -> dict[str,
         "generatedAt": generated_at,
         "condition": condition,
         "days": days,
+        "status": {
+            "selectedLeadCount": len(sorted_leads),
+            "coreAlsLeadCount": len(core_leads),
+            "worthReviewCount": len(high_priority),
+            "message": (
+                f"Reviewed {len(sorted_leads)} selected ClinicalTrials.gov record(s); "
+                f"{len(high_priority)} ALS-focused lead(s) look worth review. No outreach sent."
+            ),
+        },
         "safetyNote": SAFETY_NOTE,
         "topActions": build_top_actions(high_priority or core_leads or sorted_leads),
         "trials": [lead_to_portal_trial(lead) for lead in sorted_leads],
@@ -284,17 +302,20 @@ def render_daily_packet(packet: dict[str, Any]) -> str:
     parts = [
         f"# ALS Watch Daily Packet — {generated}",
         "",
-        f"Query window: roughly the last {packet['days']} day(s) for `{packet['condition']}`.",
+        "## Today's read",
         "",
-        f"**Safety note:** {packet['safetyNote']}",
+        f"- **Status:** {packet['status']['message']}",
+        f"- **Window:** roughly the last {packet['days']} day(s) for `{packet['condition']}`.",
+        "- **Local outputs:** `out/digest.md`, `out/daily-packet.md`, `out/portal-data.json`, `out/discord-message.md`.",
+        f"- **Safety note:** {packet['safetyNote']}",
         "",
-        "## Top 3 possible actions",
+        "## Top moves",
         "",
         "\n".join(f"{idx}. {item}" for idx, item in enumerate(packet["topActions"], start=1)),
         "",
-        "## New/changed high-priority trial leads",
+        "## Lead details",
         "",
-        "\n\n".join(lead_blocks) if lead_blocks else "No new/changed high-priority trial leads in this run.",
+        "\n\n".join(lead_blocks) if lead_blocks else "No ALS-focused leads reached the worth-review threshold in this run.",
         "",
         "## Missing Scott info blocking fit assessment",
         "",
@@ -317,33 +338,74 @@ def render_daily_packet(packet: dict[str, Any]) -> str:
 
 
 def render_discord_message(packet: dict[str, Any]) -> str:
-    urgent = [trial for trial in packet["trials"] if trial["score"] >= 75 and trial.get("coreAlsLead", True)]
-    lead_lines = [
-        f"- {trial['nctId']} ({trial['score']}/100): {trial['title']} — {trial['sourceUrl']}"
-        for trial in urgent[:3]
+    worth_review = [
+        trial
+        for trial in packet["trials"]
+        if trial.get("score", 0) >= 55 and trial.get("coreAlsLead", True)
     ]
-    if not lead_lines:
-        lead_lines = ["- No urgent/new high-priority trial leads in this run."]
+    top_moves = [_shorten(action, 150) for action in packet["topActions"][:3]]
+    missing = [_shorten(item, 76) for item in (packet["missingInfo"][:4] or ["No missing info inferred."])]
+    doctor_questions = [
+        f"For {trial['nctId']}, ask: clinically realistic given onset timing, respiratory status, genetics, meds, and prior trial exposure?"
+        for trial in worth_review[:2]
+    ]
+    if not doctor_questions:
+        doctor_questions = ["No lead-specific doctor questions today; keep the missing-info list current."]
 
-    missing = packet["missingInfo"][:5] or ["No missing info inferred."]
+    lead_line = "No ALS-focused leads crossed the worth-review threshold today."
+    if worth_review:
+        lead_line = "Worth review: " + "; ".join(
+            f"{trial['nctId']} ({trial['score']}/100)"
+            for trial in worth_review[:3]
+        )
+
     parts = [
         "## ALS Watch Daily Packet",
         "",
-        "**Top 3 actions**",
-        "\n".join(f"{idx}. {item}" for idx, item in enumerate(packet["topActions"][:3], start=1)),
+        f"**Status:** {packet['status']['message']} {lead_line}",
         "",
-        "**Urgent/new high-priority trial leads**",
-        "\n".join(lead_lines),
+        "**Top 3 moves**",
+        "\n".join(f"{idx}. {item}" for idx, item in enumerate(top_moves, start=1)),
         "",
         "**Missing Scott info**",
         "\n".join(f"- {item}" for item in missing),
         "",
-        "Full packet: `out/daily-packet.md`",
+        "**Doctor questions**",
+        "\n".join(f"- {item}" for item in doctor_questions),
+        "",
+        "**Files**",
+        "- Full packet: `out/daily-packet.md`",
+        "- Portal JSON: `out/portal-data.json`",
         "",
         f"Safety: {packet['safetyNote']}",
         "",
     ]
-    return "\n".join(parts)
+    message = "\n".join(parts)
+    if len(message) <= DISCORD_TARGET_CHARS:
+        return message
+
+    compact_parts = [
+        "## ALS Watch Daily Packet",
+        "",
+        f"**Status:** {_shorten(packet['status']['message'], 150)} {lead_line}",
+        "",
+        "**Top 3 moves**",
+        "\n".join(f"{idx}. {_shorten(item, 115)}" for idx, item in enumerate(packet["topActions"][:3], start=1)),
+        "",
+        "**Missing Scott info**",
+        "\n".join(f"- {_shorten(item, 62)}" for item in packet["missingInfo"][:3]),
+        "",
+        "**Doctor questions**",
+        f"- {_shorten(doctor_questions[0], 150)}",
+        "",
+        "**Files**",
+        "- Full packet: `out/daily-packet.md`",
+        "- Portal JSON: `out/portal-data.json`",
+        "",
+        "Safety: Not medical advice; ask doctor before any outreach or next step.",
+        "",
+    ]
+    return "\n".join(compact_parts)
 
 
 def write_outputs(packet: dict[str, Any], digest: str, out_dir: Path) -> None:
