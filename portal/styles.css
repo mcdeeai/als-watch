@@ -798,3 +798,229 @@ a:hover { border-bottom-color: var(--trust); }
   from { opacity: 0; transform: translateY(-2px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+
+/* ============================================================
+   Mobile optimization
+   ============================================================ */
+
+@media (max-width: 900px) {
+  html, body { min-width: 0; }
+
+  .app {
+    display: block;
+    min-height: 100vh;
+  }
+
+  .sidebar {
+    position: static;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--line);
+    padding: 18px 16px 14px;
+    gap: 16px;
+  }
+
+  .brand {
+    align-items: center;
+  }
+
+  .brand-name { font-size: 22px; }
+  .brand-sub { font-size: 10.5px; }
+
+  .nav-section-label {
+    margin: 0 0 8px 2px;
+    font-size: 10px;
+  }
+
+  .nav-list {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 0 0 8px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .nav-list::-webkit-scrollbar { display: none; }
+
+  .nav-item {
+    flex: 0 0 auto;
+    gap: 8px;
+    padding: 9px 11px;
+    border: 1px solid var(--line);
+    background: rgba(255,252,244,0.62);
+    white-space: nowrap;
+  }
+
+  .nav-item.active {
+    border-color: var(--trust-line);
+  }
+
+  .role-switch {
+    margin-top: 0;
+    padding: 10px;
+  }
+
+  .role-switch-label { display: none; }
+  .role-options { max-width: 380px; }
+  .role-note { font-size: 11.5px; }
+
+  .main {
+    padding: 24px 16px 56px;
+    max-width: none;
+  }
+
+  .page-head { margin-bottom: 22px; }
+  .page-title {
+    font-size: clamp(30px, 10vw, 40px);
+    line-height: 1.08;
+  }
+  .page-sub {
+    font-size: 15px;
+    max-width: none;
+  }
+
+  .today-hero {
+    padding: 22px 18px;
+    margin-bottom: 18px;
+  }
+  .today-headline {
+    font-size: 27px;
+    max-width: none;
+  }
+  .today-because {
+    font-size: 15px;
+    max-width: none;
+  }
+
+  .today-secondary {
+    grid-template-columns: 1fr;
+  }
+
+  .section-head {
+    display: block;
+  }
+  .section-head .meta {
+    display: block;
+    margin-top: 4px;
+  }
+
+  .trial-head {
+    grid-template-columns: 1fr;
+    padding: 18px 16px 16px;
+  }
+  .trial-aside {
+    align-items: flex-start;
+    text-align: left;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .trial-actions {
+    padding: 14px 16px 16px;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .trial-actions .btn,
+  .row .btn {
+    justify-content: center;
+  }
+  .trial-next {
+    display: block;
+  }
+  .trial-next-label {
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .disclosure-head,
+  .disclosure-body {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .crit {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .kv {
+    grid-template-columns: 1fr;
+    gap: 2px 0;
+  }
+  .kv dd { margin-bottom: 10px; }
+
+  .profile-row,
+  .qrow,
+  .inbox-row,
+  .outreach-row {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .profile-check,
+  .qnum { display: none; }
+
+  .card-row,
+  .row {
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+  .filters {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .filters::-webkit-scrollbar { display: none; }
+  .filter-chip { flex: 0 0 auto; }
+
+  .card {
+    padding: 18px 16px;
+  }
+
+  .pill {
+    white-space: normal;
+    max-width: 100%;
+  }
+
+  .source-block {
+    overflow-x: auto;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 520px) {
+  body { font-size: 14px; }
+
+  .sidebar {
+    padding: 16px 12px 12px;
+  }
+
+  .main {
+    padding: 20px 12px 48px;
+  }
+
+  .page-title {
+    font-size: 32px;
+  }
+
+  .today-hero,
+  .card,
+  .trial-card {
+    border-radius: 8px;
+  }
+
+  .role-options {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .today-secondary .card {
+    padding: 16px;
+  }
+}
