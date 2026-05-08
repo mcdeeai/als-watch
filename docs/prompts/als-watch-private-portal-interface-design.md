@@ -142,6 +142,22 @@ Avoid:
 - fake medical authority
 - charts that imply precision we do not have
 
+
+PROGRESSIVE DISCLOSURE REQUIREMENT
+The interface should not be a noisy dashboard. It should use progressive disclosure:
+
+Layer 1: calm summary / top next moves for Scott and Rachel.
+Layer 2: plain-language fit snapshot.
+Layer 3: criteria details and missing Scott info.
+Layer 4: raw source/evidence/scoring for operator or doctor-packet preparation.
+
+Default view should be quiet and action-oriented. Hide raw clinical text, scoring internals, and long eligibility criteria behind expansion controls. Use this order everywhere:
+plain answer → short reason → next step → expandable details → source.
+
+Every medical term that affects trial fit should include a plain-language explanation. Examples: FVC/SVC, ALSFRS-R, symptom onset window, genetic mutation requirement, stable medication period, exclusion criteria.
+
+See `docs/PROGRESSIVE_DISCLOSURE_INTERFACE.md` for the interface doctrine.
+
 KEY UX PRINCIPLES
 - Start with the next practical action, not the data dump.
 - Every claim should have a source link.
