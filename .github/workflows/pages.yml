@@ -3,6 +3,10 @@ name: Deploy ALS Watch review portal to GitHub Pages
 on:
   push:
     branches: ["master", "main"]
+  schedule:
+    # Daily portal refresh at 6:20 AM Pacific during PDT (13:20 UTC).
+    # Manual dispatch is available when the review site needs an immediate refresh.
+    - cron: "20 13 * * *"
   workflow_dispatch:
 
 permissions:
@@ -23,6 +27,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Generate daily ALS Watch portal update
+        run: |
+          python3 -m als_watch.packet --days 30 --include-seen --out-dir out --dry-run
+          mkdir -p portal/generated
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          update = json.loads(Path("out/portal-update.json").read_text())
+          Path("portal/generated/portal-update.json").write_text(json.dumps(update, indent=2, sort_keys=True) + "\n")
+          Path("portal/generated/portal-update.js").write_text("window.ALSPortalUpdate = " + json.dumps(update, indent=2, sort_keys=True) + ";\n")
+          PY
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Upload portal artifact

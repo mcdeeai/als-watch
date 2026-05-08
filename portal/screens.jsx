@@ -530,21 +530,28 @@ function ScreenOutreach() {
 // =============================================================
 
 function ScreenUpdates() {
-  const update = {
+  const fallback = {
     title: "ALS Watch Daily Update",
-    read: "ALS Watch scanned the latest trial data and found a small set of ALS-focused leads worth doctor review. No outreach has been sent.",
-    topMoves: [
+    generatedAt: "Prototype data",
+    summary: "ALS Watch scanned the latest trial data and found a small set of ALS-focused leads worth doctor review. No outreach has been sent.",
+    topActions: [
       "Ask doctor to review HEALEY ALS Platform Trial fit.",
       "Ask doctor to review Pridopidine Phase 3 fit and site availability.",
       "Confirm Scott’s latest ALSFRS-R, FVC/SVC, genetics, meds, and prior trial history.",
     ],
-    leads: [
-      "HEALEY ALS Platform Trial — worth doctor review",
-      "Pridopidine Phase 3 — worth doctor review",
-      "VTx-002 in ALS — needs fit review",
+    worthReview: [
+      { nctId: "NCT04297683", title: "HEALEY ALS Platform Trial", score: 100, fitStatus: "Possible fit / needs missing info", sourceUrl: "https://clinicaltrials.gov/study/NCT04297683" },
+      { nctId: "NCT07322003", title: "Pridopidine Phase 3", score: 100, fitStatus: "Possible fit / needs missing info", sourceUrl: "#" },
+      { nctId: "NCT07287397", title: "VTx-002 in ALS", score: 98, fitStatus: "Possible fit / needs missing info", sourceUrl: "#" },
     ],
-    missing: ["symptom onset date", "diagnosis date/details", "ALSFRS-R", "FVC/SVC", "genetic testing status", "current meds"],
+    missingInfo: ["symptom onset date", "diagnosis date/details", "ALSFRS-R", "FVC/SVC", "genetic testing status", "current meds"],
+    doctorQuestions: ["Are any of these realistic enough to contact coordinators?", "What records/tests are needed first?"],
   };
+  const update = window.ALSPortalUpdate || fallback;
+  const topMoves = update.topActions || fallback.topActions;
+  const leads = update.worthReview || fallback.worthReview;
+  const missing = update.missingInfo || fallback.missingInfo;
+  const doctorQuestions = update.doctorQuestions || fallback.doctorQuestions;
   return (
     <div data-screen-label="Daily updates">
       <div className="page-head">
@@ -559,11 +566,11 @@ function ScreenUpdates() {
       <div className="today-hero">
         <div className="today-eyebrow">Today’s read</div>
         <h2 className="today-headline">{update.title}</h2>
-        <p className="today-because">{update.read}</p>
+        <p className="today-because">{update.summary || update.read}</p>
         <div className="row gap-3" style={{ flexWrap: "wrap" }}>
           <Pill tone="trust">No outreach sent</Pill>
           <Pill tone="amber">Doctor review needed</Pill>
-          <Pill tone="ghost">Source-backed</Pill>
+          <Pill tone="ghost">{update.generatedAt || "Source-backed"}</Pill>
         </div>
       </div>
 
@@ -573,19 +580,32 @@ function ScreenUpdates() {
       </div>
       <div className="card tight">
         <ol style={{ margin: 0, paddingLeft: 20 }}>
-          {update.topMoves.map((move, i) => <li key={i} style={{ marginBottom: 10 }}>{move}</li>)}
+          {topMoves.map((move, i) => <li key={i} style={{ marginBottom: 10 }}>{move}</li>)}
         </ol>
       </div>
 
       <div className="today-secondary" style={{ marginTop: 18 }}>
         <div className="card">
           <div className="mini-eyebrow">Leads worth review</div>
-          {update.leads.map((lead, i) => <p key={i} className="mini-text">• {lead}</p>)}
+          {leads.map((lead, i) => (
+            <p key={i} className="mini-text">• {lead.nctId ? `${lead.nctId}: ${lead.title} (${lead.score}/100) — ${lead.fitStatus}` : lead}</p>
+          ))}
         </div>
         <div className="card">
           <div className="mini-eyebrow">Missing Scott info</div>
-          {update.missing.map((item, i) => <Pill key={i} tone="amber" dot>{item}</Pill>)}
+          {missing.map((item, i) => <Pill key={i} tone="amber" dot>{item}</Pill>)}
         </div>
+      </div>
+
+
+      <div className="section-head" style={{ marginTop: 24 }}>
+        <h2>Doctor questions</h2>
+        <span className="meta">Generated from today’s leads</span>
+      </div>
+      <div className="card tight">
+        <ul style={{ margin: 0, paddingLeft: 20 }}>
+          {doctorQuestions.slice(0, 4).map((question, i) => <li key={i} style={{ marginBottom: 10 }}>{question}</li>)}
+        </ul>
       </div>
 
       <p className="disclaimer">
