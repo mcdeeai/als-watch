@@ -70,6 +70,47 @@ function ScreenIntro() {
         </div>
       </div>
 
+
+
+      <div className="section-head" style={{ marginTop: 28 }}>
+        <h2>Where this is in development</h2>
+        <span className="meta">Early review prototype</span>
+      </div>
+      <div className="phase-grid">
+        <div className="phase-card active">
+          <div className="mini-eyebrow">Now · first useful iteration</div>
+          <h3 className="mini-title">Start the watch process.</h3>
+          <p className="mini-text">
+            The system scans trial data, produces a daily update, translates some medical language,
+            and shows the kind of questions worth bringing to doctors. It is intentionally simple.
+          </p>
+        </div>
+        <div className="phase-card">
+          <div className="mini-eyebrow">Next</div>
+          <h3 className="mini-title">Improve signal quality and fit review.</h3>
+          <p className="mini-text">
+            Separate new leads from old watchlist items, reduce noisy matches, improve plain-language
+            explanations, and connect leads to Scott-specific missing information.
+          </p>
+        </div>
+        <div className="phase-card">
+          <div className="mini-eyebrow">Then</div>
+          <h3 className="mini-title">Prepare doctor and coordinator packets.</h3>
+          <p className="mini-text">
+            Turn promising leads into clean packets for the care team: criteria, source links, missing
+            facts, and specific questions — still with no automatic outreach.
+          </p>
+        </div>
+        <div className="phase-card">
+          <div className="mini-eyebrow">Later</div>
+          <h3 className="mini-title">Mobilize the network when something is actionable.</h3>
+          <p className="mini-text">
+            If a lead becomes real, identify who can help: doctors, clinics, researchers, foundations,
+            trial coordinators, warm intros, and trusted friends who can move something forward.
+          </p>
+        </div>
+      </div>
+
       <div className="h-rule"></div>
 
       <div className="section-head">
@@ -560,6 +601,17 @@ function ScreenUpdates() {
         <p className="page-sub">
           This is where watcher notifications should land inside the portal: short summary first,
           then the leads and missing information behind the next layer. Nothing is sent externally.
+        </p>
+      </div>
+
+
+      <div className="card early-note">
+        <div className="mini-eyebrow">Early-stage note</div>
+        <h3 className="mini-title">This daily update is the first version of the watch process.</h3>
+        <p className="mini-text">
+          It is meant to start becoming useful: scan the field, surface possible ALS-specific leads,
+          show missing Scott information, and suggest doctor questions. It is not yet a final fit
+          assessment, medical recommendation, or outreach workflow.
         </p>
       </div>
 

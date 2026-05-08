@@ -1146,3 +1146,40 @@ a:hover { border-bottom-color: var(--trust); }
     font-size: 20px;
   }
 }
+
+.phase-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+.phase-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 16px 16px 14px;
+}
+.phase-card.active {
+  background: var(--trust-soft);
+  border-color: var(--trust-line);
+}
+.phase-card.active .mini-eyebrow,
+.phase-card.active .mini-title {
+  color: var(--trust);
+}
+.early-note {
+  margin-bottom: 18px;
+  border-style: dashed;
+  background: var(--card-2);
+}
+
+@media (max-width: 1100px) {
+  .phase-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .phase-grid {
+    grid-template-columns: 1fr;
+  }
+}
