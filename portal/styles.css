@@ -1085,3 +1085,64 @@ a:hover { border-bottom-color: var(--trust); }
     margin-bottom: 12px;
   }
 }
+
+.mission-hero .today-headline {
+  max-width: 28ch;
+}
+
+.mission-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.loop-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.loop-strip span {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 11px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--ink-2);
+  font-size: 13.5px;
+}
+.loop-strip span:not(:last-child)::after {
+  content: "→";
+  color: var(--ink-4);
+  margin-left: 8px;
+}
+
+.mission-promise {
+  margin-top: 24px;
+  border-color: var(--trust-line);
+  background: var(--trust-soft);
+}
+.mission-promise p {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 23px;
+  line-height: 1.35;
+  color: var(--trust);
+}
+
+@media (max-width: 900px) {
+  .mission-grid {
+    grid-template-columns: 1fr;
+  }
+  .loop-strip {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+  .loop-strip span {
+    justify-content: space-between;
+  }
+  .mission-promise p {
+    font-size: 20px;
+  }
+}

@@ -2,10 +2,11 @@
 const { useState } = React;
 const {
   ScreenToday, ScreenTrials, ScreenProfile, ScreenDoctor,
-  ScreenInbox, ScreenOutreach, ScreenResearch, ScreenUpdates,
+  ScreenIntro, ScreenInbox, ScreenOutreach, ScreenResearch, ScreenUpdates,
 } = window.ALSScreens;
 
 const NAV = [
+  { id: "intro",    label: "Mission",          badge: "",   group: "calm",    role: "all" },
   { id: "today",    label: "Today",            badge: "1",  group: "calm",    role: "all" },
   { id: "updates",  label: "Daily updates",    badge: "1",  group: "calm",    role: "all" },
   { id: "trials",   label: "Trials & leads",   badge: "5",  group: "calm",    role: "all" },
@@ -23,11 +24,12 @@ const ROLES = [
 ];
 
 function App() {
-  const [page, setPage] = useState("today");
+  const [page, setPage] = useState("intro");
   const [role, setRole] = useState("rachel");
 
   const visibleNav = NAV.filter(n => n.role === "all" || n.role === role);
   const ScreenMap = {
+    intro:    ScreenIntro,
     today:    ScreenToday,
     trials:   ScreenTrials,
     profile:  ScreenProfile,

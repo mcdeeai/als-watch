@@ -3,6 +3,107 @@ const { useState } = React;
 const { Pill, FitPill, GateState, TrialCard } = window.ALSUI;
 const { TRIALS, SCOTT_PROFILE, QUESTIONS, LEADS_INBOX, OUTREACH, RESEARCH } = window.ALSData;
 
+
+// =============================================================
+// Intro / Mission
+// =============================================================
+
+function ScreenIntro() {
+  return (
+    <div data-screen-label="Mission">
+      <div className="page-head">
+        <div className="page-eyebrow">Mission</div>
+        <h1 className="page-title">An ALS opportunity desk for Scott and Rachel.</h1>
+        <p className="page-sub">
+          ALS Watch uses AI to monitor the latest information, filter noise, translate what matters,
+          and help mobilize the right next action when something could be relevant.
+        </p>
+      </div>
+
+      <div className="today-hero mission-hero">
+        <div className="today-eyebrow">North star</div>
+        <h2 className="today-headline">Give Scott and Rachel the best possible chance to act on legitimate options in time.</h2>
+        <p className="today-because">
+          This is not an AI doctor and it does not determine eligibility. It is a watch desk: scan the
+          field, identify possible opportunities, explain them plainly, prepare better questions, and
+          help the real care team and trusted network move faster when something is worth reviewing.
+        </p>
+        <div className="row gap-3" style={{ flexWrap: "wrap" }}>
+          <Pill tone="trust">Watch broadly</Pill>
+          <Pill tone="amber">Ask doctors</Pill>
+          <Pill tone="ghost">Mobilize network</Pill>
+        </div>
+      </div>
+
+      <div className="mission-grid">
+        <div className="card">
+          <div className="mini-eyebrow">1 · Watch broadly</div>
+          <h3 className="mini-title">Monitor the places opportunities appear.</h3>
+          <p className="mini-text">
+            ClinicalTrials.gov, ALS clinics, foundations, expanded-access signals, biotech updates,
+            PubMed/preprints, researcher announcements, and credible advocacy networks.
+          </p>
+        </div>
+        <div className="card">
+          <div className="mini-eyebrow">2 · Decide what matters</div>
+          <h3 className="mini-title">Separate real possibilities from noise.</h3>
+          <p className="mini-text">
+            Is it actually ALS-relevant? Is it actionable now? Is it local, remote, referral-based,
+            watch-only, or not a fit? What Scott-specific info is missing?
+          </p>
+        </div>
+        <div className="card">
+          <div className="mini-eyebrow">3 · Translate into action</div>
+          <h3 className="mini-title">Turn medical language into plain next steps.</h3>
+          <p className="mini-text">
+            Explain fit gates, missing information, possible blockers, doctor questions, contact paths,
+            and why a lead may or may not be worth reviewing.
+          </p>
+        </div>
+        <div className="card">
+          <div className="mini-eyebrow">4 · Mobilize resources</div>
+          <h3 className="mini-title">Use the network when a lead becomes actionable.</h3>
+          <p className="mini-text">
+            Who can help? Is there a UCSF, Stanford, MGH, Barrow, foundation, biotech, donor, board,
+            or coordinator connection? Should Rachel ask the doctor, McDee call someone, or a packet be prepared?
+          </p>
+        </div>
+      </div>
+
+      <div className="h-rule"></div>
+
+      <div className="section-head">
+        <h2>The operating loop</h2>
+        <span className="meta">What the system is trying to do every day</span>
+      </div>
+      <div className="loop-strip">
+        <span>scan</span>
+        <span>filter</span>
+        <span>translate</span>
+        <span>assess fit</span>
+        <span>find missing info</span>
+        <span>prepare doctor questions</span>
+        <span>track next steps</span>
+      </div>
+
+      <div className="card mission-promise">
+        <div className="mini-eyebrow">Promise</div>
+        <p>
+          If there is a legitimate ALS opportunity somewhere in the system, ALS Watch should help
+          Scott and Rachel know about it, understand it, and take the right next step with their doctors
+          and trusted network.
+        </p>
+      </div>
+
+      <p className="disclaimer">
+        ALS Watch does not provide medical advice, recommend treatment, or determine trial eligibility.
+        It organizes sourced information for discussion with Scott’s neurologist, ALS clinic, trial
+        coordinators, and trusted care-network reviewers.
+      </p>
+    </div>
+  );
+}
+
 // =============================================================
 // Today
 // =============================================================
@@ -535,4 +636,4 @@ function ScreenResearch() {
   );
 }
 
-window.ALSScreens = { ScreenToday, ScreenTrials, ScreenProfile, ScreenDoctor, ScreenInbox, ScreenOutreach, ScreenResearch, ScreenUpdates };
+window.ALSScreens = { ScreenIntro, ScreenToday, ScreenTrials, ScreenProfile, ScreenDoctor, ScreenInbox, ScreenOutreach, ScreenResearch, ScreenUpdates };
