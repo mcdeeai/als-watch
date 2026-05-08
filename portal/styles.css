@@ -1024,3 +1024,64 @@ a:hover { border-bottom-color: var(--trust); }
     padding: 16px;
   }
 }
+
+.today-trial-example {
+  margin: 18px 0 22px;
+}
+
+.inbox-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 28px;
+}
+
+@media (max-width: 900px) {
+  .inbox-layout {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .form-grid {
+    max-width: none;
+    gap: 14px;
+  }
+
+  .input, .textarea, .select {
+    font-size: 16px; /* prevents iOS zoom on focus */
+    padding: 12px 12px;
+  }
+
+  .lead-card {
+    padding: 15px 14px;
+  }
+
+  .lead-card .row {
+    gap: 8px;
+  }
+
+  .lead-card .pill {
+    width: fit-content;
+  }
+
+  .today-trial-example {
+    margin: 18px 0;
+  }
+}
+
+@media (max-width: 520px) {
+  .inbox-layout .card {
+    padding: 16px 14px;
+  }
+
+  .field label {
+    font-size: 13.5px;
+  }
+
+  .textarea {
+    min-height: 110px;
+  }
+
+  .lead-card {
+    margin-bottom: 12px;
+  }
+}

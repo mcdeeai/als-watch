@@ -9,6 +9,7 @@ const { TRIALS, SCOTT_PROFILE, QUESTIONS, LEADS_INBOX, OUTREACH, RESEARCH } = wi
 
 function ScreenToday() {
   const top = TRIALS[1]; // COYA 302 — primary "ask about" today
+  const [showTrial, setShowTrial] = useState(false);
   return (
     <div data-screen-label="Today">
       <div className="page-head">
@@ -31,10 +32,22 @@ function ScreenToday() {
           <Pill tone="ghost">{top.id}</Pill>
         </div>
         <div className="row gap-3">
-          <button className="btn primary">Open trial card</button>
+          <button className="btn primary" onClick={() => setShowTrial(open => !open)}>
+            {showTrial ? "Hide trial card" : "Open trial card"}
+          </button>
           <button className="btn">Add to "Ask the doctor" list</button>
         </div>
       </div>
+
+      {showTrial && (
+        <div className="today-trial-example fade-in">
+          <div className="section-head">
+            <h2>Example expanded trial card</h2>
+            <span className="meta">Shows fit, criteria, path, and source layers</span>
+          </div>
+          <TrialCard t={top} defaultExpanded />
+        </div>
+      )}
 
       <div className="today-secondary">
         <div className="card">
@@ -282,7 +295,7 @@ function ScreenInbox() {
         </p>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1.1fr 1fr", gap: 28 }}>
+      <div className="inbox-layout">
         <div className="card">
           <div className="mini-eyebrow">Submit a lead</div>
           <h3 className="mini-title" style={{ marginBottom: 14 }}>Send something Scott's way — gently.</h3>
