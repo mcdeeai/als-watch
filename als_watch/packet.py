@@ -6,7 +6,8 @@ inspectable outputs:
 - the existing full digest Markdown
 - a concise daily packet Markdown
 - portal-consumable JSON
-- a Discord-ready Markdown/text snippet
+- a portal daily-update record
+- an operator-ready Markdown/text snippet
 
 It intentionally does not send messages, contact anyone, deploy, or read/write
 real patient data.
@@ -306,7 +307,7 @@ def render_daily_packet(packet: dict[str, Any]) -> str:
         "",
         f"- **Status:** {packet['status']['message']}",
         f"- **Window:** roughly the last {packet['days']} day(s) for `{packet['condition']}`.",
-        "- **Local outputs:** `out/digest.md`, `out/daily-packet.md`, `out/portal-data.json`, `out/discord-message.md`.",
+        "- **Local outputs:** `out/digest.md`, `out/daily-packet.md`, `out/portal-data.json`, `out/operator-message.md`.",
         f"- **Safety note:** {packet['safetyNote']}",
         "",
         "## Top moves",
@@ -337,7 +338,75 @@ def render_daily_packet(packet: dict[str, Any]) -> str:
     return "\n".join(parts)
 
 
-def render_discord_message(packet: dict[str, Any]) -> str:
+
+def build_portal_update(packet: dict[str, Any]) -> dict[str, Any]:
+    worth_review = [
+        trial
+        for trial in packet["trials"]
+        if trial.get("score", 0) >= 55 and trial.get("coreAlsLead", True)
+    ]
+    return {
+        "id": packet["generatedAt"],
+        "generatedAt": packet["generatedAt"],
+        "title": "ALS Watch Daily Update",
+        "status": packet["status"],
+        "summary": packet["status"]["message"],
+        "topActions": packet["topActions"][:3],
+        "worthReview": [
+            {
+                "nctId": trial["nctId"],
+                "title": trial["title"],
+                "score": trial["score"],
+                "fitStatus": trial["fitStatus"],
+                "nextStep": trial["nextStep"],
+                "sourceUrl": trial["sourceUrl"],
+            }
+            for trial in worth_review[:5]
+        ],
+        "missingInfo": packet["missingInfo"][:8],
+        "doctorQuestions": packet["doctorQuestions"][:5],
+        "files": {
+            "fullPacket": "out/daily-packet.md",
+            "portalData": "out/portal-data.json",
+            "operatorMessage": "out/operator-message.md",
+        },
+        "safetyNote": packet["safetyNote"],
+    }
+
+
+def render_portal_update_markdown(update: dict[str, Any]) -> str:
+    leads = update["worthReview"]
+    lead_lines = [
+        f"- {lead['nctId']} ({lead['score']}/100): {lead['title']} — {lead['fitStatus']}"
+        for lead in leads[:3]
+    ] or ["- No ALS-focused leads crossed the worth-review threshold today."]
+    return "\n".join([
+        f"# {update['title']} — {update['generatedAt']}",
+        "",
+        f"**Today’s read:** {update['summary']}",
+        "",
+        "## Top moves",
+        "",
+        "\n".join(f"{idx}. {item}" for idx, item in enumerate(update['topActions'], start=1)),
+        "",
+        "## Leads worth review",
+        "",
+        "\n".join(lead_lines),
+        "",
+        "## Missing Scott info",
+        "",
+        "\n".join(f"- {item}" for item in update['missingInfo'][:6]),
+        "",
+        "## Doctor questions",
+        "",
+        "\n".join(f"- {item}" for item in update['doctorQuestions'][:3]),
+        "",
+        f"Safety: {update['safetyNote']}",
+        "",
+    ])
+
+
+def render_operator_message(packet: dict[str, Any]) -> str:
     worth_review = [
         trial
         for trial in packet["trials"]
@@ -410,10 +479,13 @@ def render_discord_message(packet: dict[str, Any]) -> str:
 
 def write_outputs(packet: dict[str, Any], digest: str, out_dir: Path) -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
+    portal_update = build_portal_update(packet)
     (out_dir / "digest.md").write_text(digest + "\n")
     (out_dir / "daily-packet.md").write_text(render_daily_packet(packet) + "\n")
     (out_dir / "portal-data.json").write_text(json.dumps(packet, indent=2, sort_keys=True) + "\n")
-    (out_dir / "discord-message.md").write_text(render_discord_message(packet) + "\n")
+    (out_dir / "portal-update.json").write_text(json.dumps(portal_update, indent=2, sort_keys=True) + "\n")
+    (out_dir / "portal-update.md").write_text(render_portal_update_markdown(portal_update) + "\n")
+    (out_dir / "operator-message.md").write_text(render_operator_message(packet) + "\n")
 
 
 def run(args: argparse.Namespace) -> int:
@@ -434,7 +506,7 @@ def run(args: argparse.Namespace) -> int:
     print(
         f"Fetched {len(studies)} studies; wrote {len(selected)} lead(s) to "
         f"{out_dir / 'digest.md'}, {out_dir / 'daily-packet.md'}, "
-        f"{out_dir / 'portal-data.json'}, and {out_dir / 'discord-message.md'}"
+        f"{out_dir / 'portal-data.json'}, {out_dir / 'portal-update.json'}, {out_dir / 'portal-update.md'}, and {out_dir / 'operator-message.md'}"
     )
     return 0
 

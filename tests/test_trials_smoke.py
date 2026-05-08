@@ -84,19 +84,28 @@ def test_packet_run_writes_all_outputs_without_network(tmp_path, monkeypatch):
     assert (out_dir / "digest.md").exists()
     assert (out_dir / "daily-packet.md").exists()
     assert (out_dir / "portal-data.json").exists()
-    assert (out_dir / "discord-message.md").exists()
+    assert (out_dir / "portal-update.json").exists()
+    assert (out_dir / "portal-update.md").exists()
+    assert (out_dir / "operator-message.md").exists()
 
     portal_data = json.loads((out_dir / "portal-data.json").read_text())
     assert portal_data["topActions"]
     assert portal_data["trials"][0]["nctId"] == "NCT00000001"
-    discord = (out_dir / "discord-message.md").read_text()
-    assert "ALS Watch Daily Packet" in discord
-    assert "Status:" in discord
-    assert "Doctor questions" in discord
-    assert "out/daily-packet.md" in discord
-    assert "out/portal-data.json" in discord
-    assert "urgent" not in discord.lower()
-    assert len(discord) <= 1500
+    portal_update = json.loads((out_dir / "portal-update.json").read_text())
+    assert portal_update["title"] == "ALS Watch Daily Update"
+    assert portal_update["topActions"]
+    portal_update_md = (out_dir / "portal-update.md").read_text()
+    assert "ALS Watch Daily Update" in portal_update_md
+    assert "Top moves" in portal_update_md
+
+    operator = (out_dir / "operator-message.md").read_text()
+    assert "ALS Watch Daily Packet" in operator
+    assert "Status:" in operator
+    assert "Doctor questions" in operator
+    assert "out/daily-packet.md" in operator
+    assert "out/portal-data.json" in operator
+    assert "urgent" not in operator.lower()
+    assert len(operator) <= 1500
 
 
 def test_packet_core_als_filter_excludes_broad_sidebar_condition():

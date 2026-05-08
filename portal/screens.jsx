@@ -410,6 +410,78 @@ function ScreenOutreach() {
   );
 }
 
+
+// =============================================================
+// Daily Updates
+// =============================================================
+
+function ScreenUpdates() {
+  const update = {
+    title: "ALS Watch Daily Update",
+    read: "ALS Watch scanned the latest trial data and found a small set of ALS-focused leads worth doctor review. No outreach has been sent.",
+    topMoves: [
+      "Ask doctor to review HEALEY ALS Platform Trial fit.",
+      "Ask doctor to review Pridopidine Phase 3 fit and site availability.",
+      "Confirm Scott’s latest ALSFRS-R, FVC/SVC, genetics, meds, and prior trial history.",
+    ],
+    leads: [
+      "HEALEY ALS Platform Trial — worth doctor review",
+      "Pridopidine Phase 3 — worth doctor review",
+      "VTx-002 in ALS — needs fit review",
+    ],
+    missing: ["symptom onset date", "diagnosis date/details", "ALSFRS-R", "FVC/SVC", "genetic testing status", "current meds"],
+  };
+  return (
+    <div data-screen-label="Daily updates">
+      <div className="page-head">
+        <div className="page-eyebrow">Daily updates</div>
+        <h1 className="page-title">The agent’s daily read, kept calm.</h1>
+        <p className="page-sub">
+          This is where watcher notifications should land inside the portal: short summary first,
+          then the leads and missing information behind the next layer. Nothing is sent externally.
+        </p>
+      </div>
+
+      <div className="today-hero">
+        <div className="today-eyebrow">Today’s read</div>
+        <h2 className="today-headline">{update.title}</h2>
+        <p className="today-because">{update.read}</p>
+        <div className="row gap-3" style={{ flexWrap: "wrap" }}>
+          <Pill tone="trust">No outreach sent</Pill>
+          <Pill tone="amber">Doctor review needed</Pill>
+          <Pill tone="ghost">Source-backed</Pill>
+        </div>
+      </div>
+
+      <div className="section-head">
+        <h2>Top moves</h2>
+        <span className="meta">Plain-language next steps</span>
+      </div>
+      <div className="card tight">
+        <ol style={{ margin: 0, paddingLeft: 20 }}>
+          {update.topMoves.map((move, i) => <li key={i} style={{ marginBottom: 10 }}>{move}</li>)}
+        </ol>
+      </div>
+
+      <div className="today-secondary" style={{ marginTop: 18 }}>
+        <div className="card">
+          <div className="mini-eyebrow">Leads worth review</div>
+          {update.leads.map((lead, i) => <p key={i} className="mini-text">• {lead}</p>)}
+        </div>
+        <div className="card">
+          <div className="mini-eyebrow">Missing Scott info</div>
+          {update.missing.map((item, i) => <Pill key={i} tone="amber" dot>{item}</Pill>)}
+        </div>
+      </div>
+
+      <p className="disclaimer">
+        Daily updates are not medical advice and do not determine eligibility. They organize sourced
+        opportunities for discussion with Scott’s neurologist, ALS clinic, or care-network reviewers.
+      </p>
+    </div>
+  );
+}
+
 // =============================================================
 // Research Watch
 // =============================================================
@@ -450,4 +522,4 @@ function ScreenResearch() {
   );
 }
 
-window.ALSScreens = { ScreenToday, ScreenTrials, ScreenProfile, ScreenDoctor, ScreenInbox, ScreenOutreach, ScreenResearch };
+window.ALSScreens = { ScreenToday, ScreenTrials, ScreenProfile, ScreenDoctor, ScreenInbox, ScreenOutreach, ScreenResearch, ScreenUpdates };

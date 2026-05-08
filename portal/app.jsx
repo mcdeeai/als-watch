@@ -2,11 +2,12 @@
 const { useState } = React;
 const {
   ScreenToday, ScreenTrials, ScreenProfile, ScreenDoctor,
-  ScreenInbox, ScreenOutreach, ScreenResearch,
+  ScreenInbox, ScreenOutreach, ScreenResearch, ScreenUpdates,
 } = window.ALSScreens;
 
 const NAV = [
   { id: "today",    label: "Today",            badge: "1",  group: "calm",    role: "all" },
+  { id: "updates",  label: "Daily updates",    badge: "1",  group: "calm",    role: "all" },
   { id: "trials",   label: "Trials & leads",   badge: "5",  group: "calm",    role: "all" },
   { id: "profile",  label: "Scott fit profile",badge: "3",  group: "calm",    role: "all" },
   { id: "doctor",   label: "Ask the doctor",   badge: "5",  group: "calm",    role: "all" },
@@ -34,6 +35,7 @@ function App() {
     inbox:    ScreenInbox,
     outreach: ScreenOutreach,
     research: ScreenResearch,
+    updates:  ScreenUpdates,
   };
   const Screen = ScreenMap[page] || ScreenToday;
   const roleNote = ROLES.find(r => r.id === role).note;

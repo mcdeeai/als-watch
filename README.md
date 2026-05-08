@@ -49,7 +49,9 @@ This writes:
 - `out/digest.md` — full ClinicalTrials.gov digest
 - `out/daily-packet.md` — concise operator/Discord-friendly daily packet
 - `out/portal-data.json` — structured data for a future portal integration
-- `out/discord-message.md` — short Markdown suitable to paste into Discord
+- `out/portal-update.json` — current daily update for portal display
+- `out/portal-update.md` — readable daily update for portal/archive use
+- `out/operator-message.md` — short Markdown suitable for an operator notification surface
 
 For a broader review window that includes already-seen leads:
 
