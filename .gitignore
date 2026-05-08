@@ -1,0 +1,8 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.env
+.venv/
+out/
+state/*.json
+!state/.gitkeep
