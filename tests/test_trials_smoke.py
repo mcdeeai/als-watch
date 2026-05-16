@@ -107,6 +107,7 @@ def test_packet_run_writes_all_outputs_without_network(tmp_path, monkeypatch):
     assert (out_dir / "portal-update.json").exists()
     assert (out_dir / "portal-update.md").exists()
     assert (out_dir / "operator-message.md").exists()
+    assert (out_dir / "text-message.txt").exists()
 
     portal_data = json.loads((out_dir / "portal-data.json").read_text())
     assert portal_data["topActions"]
@@ -126,6 +127,12 @@ def test_packet_run_writes_all_outputs_without_network(tmp_path, monkeypatch):
     assert "out/portal-data.json" in operator
     assert "urgent" not in operator.lower()
     assert len(operator) <= 1500
+
+    text_message = (out_dir / "text-message.txt").read_text()
+    assert "ALS Watch:" in text_message
+    assert "Not medical advice" in text_message
+    assert "No outreach sent" in text_message
+    assert len(text_message) <= 481
 
 
 def test_packet_core_als_filter_excludes_broad_sidebar_condition():

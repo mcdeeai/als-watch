@@ -55,6 +55,7 @@ This writes:
 - `out/portal-update.json` — current daily update for portal display
 - `out/portal-update.md` — readable daily update for portal/archive use
 - `out/operator-message.md` — short Markdown suitable for an operator notification surface
+- `out/text-message.txt` — compact SMS/iMessage-safe alert text
 
 For a broader review window that includes already-seen leads:
 
@@ -63,6 +64,12 @@ python3 -m als_watch.packet --days 30 --include-seen --out-dir out
 ```
 
 The packet generator only writes local files. It does not send Discord/email/SMS messages, contact doctors or trial coordinators, deploy, or use real patient data.
+
+## Text Notifications
+
+`out/text-message.txt` is the approved short-form payload for SMS/iMessage-style alerts. It is intentionally terse: number of new/changed leads, top NCT IDs, no outreach sent, and not-medical-advice language.
+
+Do not wire real text delivery until the recipient, channel, and escalation rules are approved. Keep real patient details out of text messages.
 
 ## Smoke Test
 

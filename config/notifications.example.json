@@ -1,0 +1,15 @@
+{
+  "text_notifications": {
+    "enabled": false,
+    "channel": "",
+    "target": "",
+    "send_only_when_new_or_changed_leads": true,
+    "message_file": "out/daily-cron/text-message.txt",
+    "safety_rules": [
+      "No real patient details in text messages",
+      "No medical advice",
+      "No eligibility determination",
+      "No outreach to doctors, coordinators, caregivers, researchers, or patients without explicit approval"
+    ]
+  }
+}

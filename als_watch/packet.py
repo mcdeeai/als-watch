@@ -61,6 +61,7 @@ C9ORF72_MISSING_INFO = [
 ]
 
 DISCORD_TARGET_CHARS = 1500
+TEXT_TARGET_CHARS = 480
 
 
 def _unique(items: list[str], limit: int | None = None) -> list[str]:
@@ -501,6 +502,37 @@ def render_operator_message(packet: dict[str, Any]) -> str:
     return "\n".join(compact_parts)
 
 
+def render_text_message(packet: dict[str, Any]) -> str:
+    """Render a compact SMS/iMessage-safe notification.
+
+    This is intentionally less detailed than the Discord/operator packet. Text
+    should alert a human to review ALS Watch without pushing clinical detail or
+    patient data into an external messaging surface.
+    """
+    worth_review = [
+        trial
+        for trial in packet["trials"]
+        if trial.get("score", 0) >= 55 and trial.get("coreAlsLead", True)
+    ]
+    if not worth_review:
+        return (
+            "ALS Watch: no new/changed ALS leads crossed the review threshold today. "
+            "No outreach sent. Not medical advice."
+        )
+
+    leads = ", ".join(
+        f"{trial['nctId']} ({trial['score']}/100)"
+        for trial in worth_review[:3]
+    )
+    lead_count = len(worth_review)
+    plural = "lead" if lead_count == 1 else "leads"
+    message = (
+        f"ALS Watch: {lead_count} new/changed ALS {plural} worth review: {leads}. "
+        "Check Discord/portal before any action. No outreach sent. Not medical advice; ask doctor/trial coordinator."
+    )
+    return _shorten(message, TEXT_TARGET_CHARS)
+
+
 def write_outputs(packet: dict[str, Any], digest: str, out_dir: Path) -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
     portal_update = build_portal_update(packet)
@@ -510,6 +542,7 @@ def write_outputs(packet: dict[str, Any], digest: str, out_dir: Path) -> None:
     (out_dir / "portal-update.json").write_text(json.dumps(portal_update, indent=2, sort_keys=True) + "\n")
     (out_dir / "portal-update.md").write_text(render_portal_update_markdown(portal_update) + "\n")
     (out_dir / "operator-message.md").write_text(render_operator_message(packet) + "\n")
+    (out_dir / "text-message.txt").write_text(render_text_message(packet) + "\n")
 
 
 def run(args: argparse.Namespace) -> int:
@@ -530,7 +563,8 @@ def run(args: argparse.Namespace) -> int:
     print(
         f"Fetched {len(studies)} studies; wrote {len(selected)} lead(s) to "
         f"{out_dir / 'digest.md'}, {out_dir / 'daily-packet.md'}, "
-        f"{out_dir / 'portal-data.json'}, {out_dir / 'portal-update.json'}, {out_dir / 'portal-update.md'}, and {out_dir / 'operator-message.md'}"
+        f"{out_dir / 'portal-data.json'}, {out_dir / 'portal-update.json'}, {out_dir / 'portal-update.md'}, "
+        f"{out_dir / 'operator-message.md'}, and {out_dir / 'text-message.txt'}"
     )
     return 0
 
