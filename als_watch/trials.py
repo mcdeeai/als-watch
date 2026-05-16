@@ -48,6 +48,21 @@ HIGH_VALUE_TERMS = (
     "antisense",
     "gene therapy",
 )
+C9ORF72_TERMS = (
+    "c9orf72",
+    "c9orf72 repeat",
+    "c9orf72 expansion",
+    "hexanucleotide repeat",
+    "ggggcc",
+    "g4c2",
+    "dipeptide repeat",
+    "dpr",
+    "poly-gp",
+    "poly-ga",
+    "poly-gr",
+    "antisense oligonucleotide",
+    "aso",
+)
 
 
 @dataclasses.dataclass
@@ -244,6 +259,8 @@ def score_lead(lead: TrialLead) -> tuple[int, list[str]]:
         score += 7; reasons.append("public contact listed")
     if lead.expanded_access == "yes" or "expanded access" in text_blob:
         score += 12; reasons.append("expanded-access signal")
+    if any(term in text_blob for term in C9ORF72_TERMS):
+        score += 14; reasons.append("C9orf72/genetic-subtype signal; verify mutation and criteria with doctor")
     if any(term in text_blob for term in HIGH_VALUE_TERMS):
         score += 8; reasons.append("treatment/therapy/genetic relevance terms")
 
@@ -308,7 +325,17 @@ def bullet_list(items: list[str], empty: str = "Not provided", limit: int = 8) -
 
 def render_lead(lead: TrialLead) -> str:
     why = "; ".join(lead.score_reasons[:5])
-    question = "Ask whether this study is clinically realistic for Scott and what eligibility data would be needed before contacting the coordinator."
+    text_blob = " ".join([
+        lead.title,
+        lead.official_title,
+        lead.brief_summary,
+        lead.eligibility,
+        " ".join(lead.interventions),
+    ]).lower()
+    if any(term in text_blob for term in C9ORF72_TERMS):
+        question = "Ask whether Scott's C9orf72 genetic result and current clinical status match this study's genotype-specific criteria, and what records/tests would be needed before contacting the coordinator."
+    else:
+        question = "Ask whether this study is clinically realistic for Scott and what eligibility data would be needed before contacting the coordinator."
     return textwrap.dedent(f"""
     ### {lead.title} ({lead.nct_id})
     - **Status / phase:** {lead.status} / {lead.phase}

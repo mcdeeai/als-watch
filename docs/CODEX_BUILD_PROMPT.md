@@ -58,6 +58,7 @@ Suggested factors:
 - Has US locations/contact info
 - Recently updated
 - Mentions expanded access or treatment/intervention
+- Elevate C9orf72/genetic-subtype signals, but never treat them as fit without the exact genetic report and doctor/coordinator review.
 
 Output score and short rationale.
 
@@ -79,6 +80,8 @@ Each lead:
 - actionability score/rationale
 - source link
 - suggested question for doctor/coordinator
+
+For C9orf72-specific leads, include a doctor/coordinator question about whether Scott's exact genetic report wording matches the study criteria and what documentation is needed for pre-screening.
 
 ## Constraints
 - Do not send emails/SMS/social posts.

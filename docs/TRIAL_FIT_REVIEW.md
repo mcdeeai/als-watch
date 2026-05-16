@@ -39,6 +39,7 @@ Assess only if known; otherwise mark “unknown / ask Scott or doctor.”
 - Time since diagnosis
 - Site of onset if relevant
 - Genetic status: SOD1, C9orf72, FUS, TARDBP, negative, unknown
+- For C9orf72-specific leads: exact report wording, pathogenic repeat-expansion status, repeat size/range if listed, and whether genetic counseling has been discussed
 - ALSFRS-R score
 - FVC/SVC / respiratory status
 - Mobility/functional status
@@ -58,6 +59,7 @@ Examples:
 - FVC/SVC above threshold
 - ALSFRS-R above threshold
 - Specific genetic mutation required or excluded
+- C9orf72-specific requirement: confirmed C9orf72 hexanucleotide repeat expansion or other protocol-defined variant language
 - Stable riluzole/edaravone period
 
 ### 5. Key exclusion criteria
@@ -79,6 +81,7 @@ Example:
 - Need latest FVC/SVC
 - Need ALSFRS-R
 - Need genetic testing result
+- Need exact C9orf72 report wording when a lead is C9orf72-specific
 - Need current medication list
 
 ### 7. How to get considered
@@ -96,6 +99,10 @@ Every actionable trial should include a practical path:
 Each lead should include a short question block, e.g.:
 
 > Could this trial be clinically realistic for Scott based on his diagnosis, onset timing, respiratory status, genetics, and current medications? If yes, what records or tests would be needed before contacting the coordinator?
+
+For C9orf72-specific leads:
+
+> Does Scott's genetic report match this trial's C9orf72 criteria, and should we ask the coordinator what exact genetic documentation, respiratory/function scores, and records are required for pre-screening?
 
 ## Output Format Per Trial
 

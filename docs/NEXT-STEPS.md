@@ -1,6 +1,6 @@
 # ALS Watch — Current State and Next Steps
 
-Last updated: 2026-05-08
+Last updated: 2026-05-15
 
 ## Current intent
 ALS Watch is an AI-assisted ALS opportunity desk for Scott and Rachel.
@@ -115,6 +115,9 @@ Need stronger extraction of:
 - ventilation exclusions
 - location/site feasibility
 - coordinator/contact path
+
+### C9orf72 specificity added
+Scott's watch profile now treats C9orf72 as a high-priority genetic-subtype signal. The system should elevate C9orf72-specific trials and research, but it must ask for exact genetic-report wording and doctor/coordinator review before any fit judgment.
 
 ### Portal data is partly mock, partly generated
 Daily Updates uses generated data. Other pages still use static `data.jsx` mock content.

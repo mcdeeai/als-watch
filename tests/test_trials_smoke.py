@@ -40,6 +40,26 @@ def test_normalize_scores_recruiting_interventional_trial():
     assert "https://clinicaltrials.gov/study/NCT00000001" == lead.source_url
 
 
+def test_c9orf72_signal_is_elevated_and_generates_specific_question():
+    data = fixture()
+    data["protocolSection"]["identificationModule"]["briefTitle"] = "C9orf72 ALS Genetic Treatment Study"
+    data["protocolSection"]["descriptionModule"]["briefSummary"] = (
+        "A study for ALS participants with a confirmed C9orf72 repeat expansion."
+    )
+    data["protocolSection"]["eligibilityModule"]["eligibilityCriteria"] = (
+        "Inclusion Criteria: ALS diagnosis; documented pathogenic C9orf72 hexanucleotide repeat expansion."
+    )
+
+    lead = normalize_study(data)
+    assert any("C9orf72" in reason for reason in lead.score_reasons)
+
+    trial = packet.lead_to_portal_trial(lead)
+    assert any("C9orf72" in item for item in trial["missingScottInfo"])
+
+    questions = packet.build_doctor_questions([lead])
+    assert "C9orf72" in questions[0]
+
+
 def test_digest_contains_safety_note_and_source():
     lead = normalize_study(fixture())
     digest = render_digest([lead], 7, "Amyotrophic Lateral Sclerosis")

@@ -59,6 +59,7 @@ The agent should be aggressive in discovery and conservative in claims.
    - HEALEY ALS Platform Trial
    - expanded access listings
    - major ALS center trial pages
+   - C9orf72-specific and broader genetic ALS trial language, including repeat-expansion criteria
 
 2. **Research Signal Monitor**
    - PubMed
@@ -67,6 +68,7 @@ The agent should be aggressive in discovery and conservative in claims.
    - ALS Association
    - MDA
    - major ALS labs and foundations
+   - C9orf72 terms: C9orf72, hexanucleotide repeat expansion, GGGGCC/G4C2, dipeptide repeat proteins, poly(GP), antisense oligonucleotide/ASO, gene-targeted therapy, genetic counseling
 
 3. **Social / Network Signal Monitor**
    - public researcher posts
@@ -83,6 +85,7 @@ The agent should be aggressive in discovery and conservative in claims.
    - eligibility clues
    - Scott-fit criteria when privately available
    - credibility/source quality
+   - C9orf72/genetic-subtype match potential, while treating actual eligibility as doctor/coordinator-only
 
 5. **Comms Drafting Worker**
    - draft trial coordinator emails

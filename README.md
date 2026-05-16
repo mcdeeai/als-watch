@@ -7,6 +7,9 @@ It starts Scott-first, but is designed to become doctor-shareable and potentiall
 ## Current Mission
 Find potentially actionable ALS opportunities aggressively, summarize them clearly, and route them through human review before any outreach or medical interpretation.
 
+## Current Specificity
+Scott's watch profile now treats **C9orf72** as a high-priority genetic-subtype signal. The system should elevate C9orf72-specific trials/research and ask for exact genetic-report wording before judging fit. ALS Watch still does not determine eligibility; C9orf72 leads are for doctor/trial-coordinator review.
+
 ## Safety Rule
 ALS Watch does not provide medical advice. Outputs are for discussion with treating neurologists, trial coordinators, and approved care-network members.
 

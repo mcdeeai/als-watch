@@ -28,6 +28,11 @@ These fields are enough to improve trial matching without over-collecting.
 - Sex:
 - Genetic testing done? yes/no/unsure
 - Known ALS-related mutation, if any: SOD1 / C9orf72 / FUS / TARDBP / other / negative / unknown
+- If C9orf72 is known or suspected:
+  - Does the report say pathogenic C9orf72 repeat expansion?
+  - Exact report wording, if Scott wants it tracked privately:
+  - Repeat size/range or lab interpretation, if listed:
+  - Has genetic counseling been discussed?
 - ALSFRS-R score, if known:
 - FVC or breathing test result, if known:
 - Time since diagnosis:

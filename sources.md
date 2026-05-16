@@ -17,6 +17,16 @@
 - Crossref metadata enrichment
 - arXiv for AI/ML/computational ALS signals only
 
+## C9orf72 Watch Terms
+- C9orf72 / C9ORF72
+- C9orf72 repeat expansion / hexanucleotide repeat expansion
+- GGGGCC / G4C2 repeat
+- dipeptide repeat proteins / DPR
+- poly(GP), poly(GA), poly(GR)
+- antisense oligonucleotide / ASO
+- gene-targeted therapy
+- genetic counseling
+
 ## Social / Network Sources To Design Carefully
 - Public researcher and clinician announcements
 - ALS foundation updates

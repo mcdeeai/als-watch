@@ -12,6 +12,13 @@
     "site_of_onset": "",
     "genetic_testing_status": "",
     "known_mutation": "",
+    "c9orf72": {
+      "known_status": "",
+      "report_wording": "",
+      "repeat_expansion_confirmed": "",
+      "repeat_size_or_range": "",
+      "genetic_counseling_discussed": ""
+    },
     "alsfrs_r": "",
     "fvc": ""
   },

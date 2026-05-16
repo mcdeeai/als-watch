@@ -24,6 +24,7 @@ from pathlib import Path
 from typing import Any
 
 from als_watch.trials import (
+    C9ORF72_TERMS,
     DEFAULT_STATE,
     TrialLead,
     bullet_list,
@@ -50,6 +51,13 @@ CORE_MISSING_INFO = [
     "Need current ALS medication list",
     "Need prior/current trial participation history",
     "Need travel feasibility and preferred ALS clinic/site",
+]
+
+C9ORF72_MISSING_INFO = [
+    "Need exact genetic-test wording for C9orf72, including whether a pathogenic repeat expansion was confirmed",
+    "Need whether the report mentions repeat-expansion size/range or lab interpretation",
+    "Need whether FTD/cognitive or behavioral symptoms are present, if Scott wants that tracked",
+    "Need whether any C9orf72-specific trial or genetic counseling referral has already been discussed",
 ]
 
 DISCORD_TARGET_CHARS = 1500
@@ -118,6 +126,8 @@ def infer_missing_info(lead: TrialLead) -> list[str]:
 
     if any(term in blob for term in ["sod1", "c9orf72", "fus", "tardbp", "mutation", "genetic"]):
         missing.append("Need genetic testing result, including SOD1/C9orf72/FUS/TARDBP if available")
+    if any(term in blob for term in C9ORF72_TERMS):
+        missing.extend(C9ORF72_MISSING_INFO)
     if any(term in blob for term in ["feeding tube", "gastrostomy", "peg"]):
         missing.append("Need feeding tube / swallowing status")
     if any(term in blob for term in ["ventilation", "tracheostomy", "niv", "non-invasive ventilation"]):
@@ -190,6 +200,20 @@ def lead_to_portal_trial(lead: TrialLead) -> dict[str, Any]:
 def build_doctor_questions(leads: list[TrialLead]) -> list[str]:
     questions: list[str] = []
     for lead in leads[:5]:
+        blob = " ".join(
+            [
+                lead.title,
+                lead.official_title,
+                lead.brief_summary,
+                lead.eligibility,
+                " ".join(lead.interventions),
+            ]
+        ).lower()
+        if any(term in blob for term in C9ORF72_TERMS):
+            questions.append(
+                f"{lead.nct_id}: This appears to have a C9orf72/genetic-subtype signal. Does Scott's genetic report match the trial's required mutation/repeat-expansion criteria, and what records or tests would a coordinator need for pre-screening?"
+            )
+            continue
         questions.append(
             f"{lead.nct_id}: Could this possible lead be clinically realistic for Scott based on diagnosis/onset timing, respiratory status, genetics, current meds, and prior trial exposure? If yes, what records or tests are needed before contacting the coordinator?"
         )
@@ -211,7 +235,7 @@ def build_top_actions(leads: list[TrialLead]) -> list[str]:
         f"Ask doctor to review {lead.nct_id}: {lead.title} ({lead.score}/100)."
         for lead in top
     ]
-    actions.append("Fill missing Scott info blocking fit assessment: onset/diagnosis dates, ALSFRS-R, FVC/SVC, genetics, meds, prior trials, and travel feasibility.")
+    actions.append("Fill missing Scott info blocking fit assessment: onset/diagnosis dates, ALSFRS-R, FVC/SVC, exact C9orf72/genetic report wording, meds, prior trials, and travel feasibility.")
     return actions[:3]
 
 
